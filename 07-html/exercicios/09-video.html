@@ -1,0 +1,92 @@
+<h1>Video</h1>
+
+<video id="meuVideo" width="800" height="450" controls autoplay constrolsList="nodownload">
+  <source src="http://files.cod3r.com.br/curso-web/video.mp4" type="video/mp4">
+  Seu browser não suporta a tag vídeo
+</video>
+
+
+<div wm-progresso="meuVideo" class="progresso">
+  <div></div>
+</div>
+
+<div>
+  <button wm-play="meuVideo">Play</button>
+  <button wm-pause="meuVideo">Pause</button>
+</div>
+
+<style>
+  .progresso {
+    height: 20px;
+    width: 500px;
+    border: solid 1px #444;
+    margin: 20px;
+  }
+
+  .progresso > div {
+    background-color: red;
+    color: #fff;
+    height: 100%;
+    text-align: right;
+    font-size: 14px;
+    width: 0%;
+  }
+</style>
+
+<script>
+
+  function atualizaBarra(vid, bar, percent) {
+    // const vid = document.getElementById('meuVideo')
+    // const percent = vid.currentTime / vid.duration
+    // const bar = document.querySelector('[wm-progresso] > div')
+    bar.style.width = `${percent * 100}%`
+    console.log(percent, vid.duration, vid.currentTime, bar.style.width)
+  }
+
+  function mover(vid, bar, percent) {
+    if(percent < 0.9) {
+        // console.log("asdasdsad")
+      setTimeout(() => atualizaBarra(vid, bar, vid.currentTime / vid.duration), 20000)
+      mover(vid, bar, percent)
+    }else {
+      console.log('Fim do vídeo!!!')
+    } 
+  }
+
+  function setBar() {
+    const vid = document.getElementById('meuVideo')
+    const percent = vid.currentTime / vid.duration
+    const bar = document.querySelector('[wm-progresso] > div')
+    mover(vid, bar, 0.1)
+  }
+
+  const clickPlay = document.querySelector('[wm-play]')
+  clickPlay.onclick = function(e) {
+    meuVideo.play()
+  }
+
+  const clickPause = document.querySelector('[wm-pause]')
+  clickPause.onclick = function(e) {
+    meuVideo.pause()
+  }
+
+/*
+  function barStatus(callback) {
+    const vid = document.getElementById('meuVideo')
+    if (vid.currentTime !== vid.duration) {
+        setTimeout(() => atualizaBarra(vid), 1000)
+    }else {
+      callback()
+    }
+  }
+*/
+  setBar()
+
+</script>
+
+
+
+
+
+
+
